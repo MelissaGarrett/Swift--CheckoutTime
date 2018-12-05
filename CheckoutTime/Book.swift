@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+class Book : NSObject {
+    var title: String
+    var author: String
+    var genre: Genre
+    
+    init(title: String, author: String, genre: Genre) {
+        self.title = title
+        self.author = author
+        self.genre = genre
+    }    
+}

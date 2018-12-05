@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+enum Genre: String, CaseIterable {
+    case Financial = "FINANCIAL"
+    case Inspirational = "INSPIRATIONAL"
+    case Fictional = "FICTIONAL"
+    case NonFictional = "NONFICTIONAL"
+    case AutoBiographical = "AUTOBIOGRAPHICAL"
+}
+

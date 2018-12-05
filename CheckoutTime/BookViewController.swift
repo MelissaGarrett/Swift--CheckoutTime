@@ -9,30 +9,77 @@
 import UIKit
 
 class BookViewController: UITableViewController {
+    var genreType: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        if let genreType = genreType {
+            title = genreType
+        }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBook))
+        
+        setBackgroundColor()
+    }
+    
+    @objc func addBook() {
+        let alertMsg = "Add book for the \(genreType!) genre."
+        
+        let ac = UIAlertController(title: "", message: alertMsg, preferredStyle: .alert)
+        ac.addTextField(configurationHandler: { (textField: UITextField!) -> Void in
+            textField.placeholder = "Enter title"
+        })
+        
+        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
+            let bookTitle = ac.textFields![0] as UITextField
+            let bookAuthor = ac.textFields![1] as UITextField
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
+            (action: UIAlertAction!) -> Void in })
+        ac.addTextField(configurationHandler: { (textField: UITextField!) -> Void in
+            textField.placeholder = "Enter author"
+        })
+        
+        ac.addAction(saveAction)
+        ac.addAction(cancelAction)
+        
+        self.present(ac, animated: true)
+    }
+    
+    func setBackgroundColor() {
+        switch genreType {
+        case Genre.Financial.rawValue: // green
+            tableView.backgroundColor = UIColor(red: 200/255, green: 255/255, blue: 185/255, alpha: 1.0)
+            
+        case Genre.Inspirational.rawValue: // blue
+            tableView.backgroundColor = UIColor(red: 190/255, green: 242/255, blue: 255/255, alpha: 1.0)
+            
+        case Genre.Fictional.rawValue: // purple
+            tableView.backgroundColor = UIColor(red: 255/255, green: 203/255, blue: 255/255, alpha: 1.0)
+            
+        case Genre.NonFictional.rawValue: // yellow
+            tableView.backgroundColor = UIColor(red: 244/255, green: 254/255, blue: 177/255, alpha: 1.0)
+            
+        case Genre.AutoBiographical.rawValue: // orange
+            tableView.backgroundColor = UIColor(red: 255/255, green: 224/255, blue: 135/255, alpha: 1.0)
+            
+        case .none:
+            tableView.backgroundColor = UIColor.white
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        case .some(_):
+            tableView.backgroundColor = UIColor.white
+        }
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
@@ -40,42 +87,6 @@ class BookViewController: UITableViewController {
 
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation
