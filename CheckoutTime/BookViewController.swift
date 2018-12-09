@@ -10,6 +10,9 @@ import UIKit
 
 class BookViewController: UITableViewController {
     var genreType: String?
+    var book: BookCell?
+
+    var books = [Book]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,17 +30,25 @@ class BookViewController: UITableViewController {
         let alertMsg = "Add book for the \(genreType!) genre."
         
         let ac = UIAlertController(title: "", message: alertMsg, preferredStyle: .alert)
+        
         ac.addTextField(configurationHandler: { (textField: UITextField!) -> Void in
             textField.placeholder = "Enter title"
         })
         
-        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
-            let bookTitle = ac.textFields![0] as UITextField
-            let bookAuthor = ac.textFields![1] as UITextField
-        })
+        let saveAction = UIAlertAction(title: "Save", style: .default) {  [unowned self, ac] _ in
+            let titleTextField = ac.textFields![0] as UITextField
+            let authorTextField = ac.textFields![1] as UITextField
+            
+            self.saveNewBook(title: titleTextField.text!, author: authorTextField.text!, genre: Genre(rawValue: self.genreType!)!)
+        }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
-            (action: UIAlertAction!) -> Void in })
+        // Don't need '[unowned self, ac] here like in "saveAction" because
+        // 'self' and 'ac' are not used in the closure
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) {
+            _ in
+            
+        }
+        
         ac.addTextField(configurationHandler: { (textField: UITextField!) -> Void in
             textField.placeholder = "Enter author"
         })
@@ -72,30 +83,37 @@ class BookViewController: UITableViewController {
             tableView.backgroundColor = UIColor.white
         }
     }
+    
+    func saveNewBook(title: String, author: String, genre: Genre) {
+        let newBook = Book(title: title, author: author, genre: Genre(rawValue: genre.rawValue)!)
+        
+        books.append(newBook)
+        
+        tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return books.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Book", for: indexPath) as! BookCell
 
-        // Configure the cell...
+        cell.titleLabel.text = books[indexPath.row].title
+        cell.authorLabel.text = books[indexPath.row].author
 
         return cell
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
-    */
-
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            // remove row from array; reload data OR use a pop-up to delete!!!
+        }
+    }
 }

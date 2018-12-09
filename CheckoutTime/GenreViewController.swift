@@ -12,7 +12,6 @@ class GenreViewController: UITableViewController {
     
     @IBOutlet var genreLabel: UILabel!
     
-    var books = [Book]()
     var genres = [Genre]()
     
     override func viewDidLoad() {
