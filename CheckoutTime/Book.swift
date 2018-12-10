@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Book : NSObject {
+class Book: NSObject, Codable {
     var title: String
     var author: String
     var genre: Genre

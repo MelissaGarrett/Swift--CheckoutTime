@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Genre: String, CaseIterable {
+enum Genre: String, CaseIterable, Codable {
     case Financial = "FINANCIAL"
     case Inspirational = "INSPIRATIONAL"
     case Fictional = "FICTIONAL"

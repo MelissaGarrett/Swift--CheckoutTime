@@ -19,6 +19,24 @@ class BookViewController: UITableViewController {
         title = genreType
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBook))
+        
+        // Load data from disk
+        let defaults = UserDefaults.standard
+        
+        if let savedData = defaults.object(forKey: "books") as? Data {
+            let jsonDecoder = JSONDecoder()
+            
+            do {
+                books = try jsonDecoder.decode([Book].self, from: savedData)
+            } catch {
+                let ac = UIAlertController(title: "Error", message: "Could not save data.", preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default)
+                
+                ac.addAction(action)
+                
+                present(ac, animated: true)
+            }
+        }
     }
     
     @objc func addBook() {
@@ -57,7 +75,24 @@ class BookViewController: UITableViewController {
     func saveNewBook(title: String, author: String, genre: Genre) {
         let newBook = Book(title: title, author: author, genre: Genre(rawValue: genre.rawValue)!)
         
+        // Save to array
         books.append(newBook)
+        
+        // Save to disk
+        do {
+            let defaults = UserDefaults.standard
+            let jsonEncoder = JSONEncoder()
+            let savedData = try jsonEncoder.encode(books)
+            
+            defaults.set(savedData, forKey: "books")
+        } catch {
+            let ac = UIAlertController(title: "Error", message: "Could not save data.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default)
+            
+            ac.addAction(action)
+            
+            present(ac, animated: true)
+        }
         
         tableView.reloadData()
     }
