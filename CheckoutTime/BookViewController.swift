@@ -9,21 +9,16 @@
 import UIKit
 
 class BookViewController: UITableViewController {
-    var genreType: String?
-    var book: BookCell?
+    var genreType: String!
 
     var books = [Book]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = genreType
 
-        if let genreType = genreType {
-            title = genreType
-        }
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBook))
-        
-        setBackgroundColor()
     }
     
     @objc func addBook() {
@@ -59,31 +54,6 @@ class BookViewController: UITableViewController {
         self.present(ac, animated: true)
     }
     
-    func setBackgroundColor() {
-        switch genreType {
-        case Genre.Financial.rawValue: // green
-            tableView.backgroundColor = UIColor(red: 200/255, green: 255/255, blue: 185/255, alpha: 1.0)
-            
-        case Genre.Inspirational.rawValue: // blue
-            tableView.backgroundColor = UIColor(red: 190/255, green: 242/255, blue: 255/255, alpha: 1.0)
-            
-        case Genre.Fictional.rawValue: // purple
-            tableView.backgroundColor = UIColor(red: 255/255, green: 203/255, blue: 255/255, alpha: 1.0)
-            
-        case Genre.NonFictional.rawValue: // yellow
-            tableView.backgroundColor = UIColor(red: 244/255, green: 254/255, blue: 177/255, alpha: 1.0)
-            
-        case Genre.AutoBiographical.rawValue: // orange
-            tableView.backgroundColor = UIColor(red: 255/255, green: 224/255, blue: 135/255, alpha: 1.0)
-            
-        case .none:
-            tableView.backgroundColor = UIColor.white
-
-        case .some(_):
-            tableView.backgroundColor = UIColor.white
-        }
-    }
-    
     func saveNewBook(title: String, author: String, genre: Genre) {
         let newBook = Book(title: title, author: author, genre: Genre(rawValue: genre.rawValue)!)
         
@@ -100,9 +70,11 @@ class BookViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Book", for: indexPath) as! BookCell
-
+        
         cell.titleLabel.text = books[indexPath.row].title
         cell.authorLabel.text = books[indexPath.row].author
+        
+        cell.backgroundColor = getBackgroundColor()
 
         return cell
     }
@@ -114,6 +86,31 @@ class BookViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             // remove row from array; reload data OR use a pop-up to delete!!!
+        }
+    }
+    
+    func getBackgroundColor() -> UIColor {
+        switch genreType {
+        case Genre.Financial.rawValue: // green
+            return UIColor(red: 200/255, green: 255/255, blue: 185/255, alpha: 1.0)
+            
+        case Genre.Inspirational.rawValue: // blue
+            return UIColor(red: 190/255, green: 242/255, blue: 255/255, alpha: 1.0)
+            
+        case Genre.Fictional.rawValue: // purple
+            return UIColor(red: 255/255, green: 203/255, blue: 255/255, alpha: 1.0)
+            
+        case Genre.NonFictional.rawValue: // yellow
+            return UIColor(red: 244/255, green: 254/255, blue: 177/255, alpha: 1.0)
+            
+        case Genre.AutoBiographical.rawValue: // orange
+            return UIColor(red: 255/255, green: 224/255, blue: 135/255, alpha: 1.0)
+            
+        case .none:
+            return UIColor.white
+            
+        case .some(_):
+            return UIColor.white
         }
     }
 }

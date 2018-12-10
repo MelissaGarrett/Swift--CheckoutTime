@@ -56,17 +56,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YuB-c3-9wr">
-                                            <rect key="frame" x="16" y="11" width="300" height="30"/>
+                                            <rect key="frame" x="16" y="11" width="300" height="25"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="b7X-hh-sMT"/>
+                                                <constraint firstAttribute="height" constant="25" id="b7X-hh-sMT"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u8j-zX-wdg">
-                                            <rect key="frame" x="16" y="54" width="300" height="30"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <rect key="frame" x="16" y="54" width="300" height="25"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -74,11 +74,11 @@
                                     <constraints>
                                         <constraint firstItem="YuB-c3-9wr" firstAttribute="trailing" secondItem="u8j-zX-wdg" secondAttribute="trailing" id="6GY-Uc-Akb"/>
                                         <constraint firstItem="YuB-c3-9wr" firstAttribute="top" secondItem="KuW-zM-8KC" secondAttribute="topMargin" id="Asf-NY-5cC"/>
-                                        <constraint firstItem="u8j-zX-wdg" firstAttribute="top" secondItem="YuB-c3-9wr" secondAttribute="bottom" constant="13" id="DC9-Gn-ENH"/>
+                                        <constraint firstItem="u8j-zX-wdg" firstAttribute="top" secondItem="YuB-c3-9wr" secondAttribute="bottom" constant="18" id="DC9-Gn-ENH"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="YuB-c3-9wr" secondAttribute="trailing" constant="43" id="KWt-BU-ATp"/>
                                         <constraint firstItem="YuB-c3-9wr" firstAttribute="leading" secondItem="KuW-zM-8KC" secondAttribute="leadingMargin" id="TIS-zj-eBT"/>
                                         <constraint firstItem="YuB-c3-9wr" firstAttribute="leading" secondItem="u8j-zX-wdg" secondAttribute="leading" id="gwv-LN-cPX"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="u8j-zX-wdg" secondAttribute="bottom" constant="5" id="hkG-va-fXq"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="u8j-zX-wdg" secondAttribute="bottom" constant="10" id="hkG-va-fXq"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
