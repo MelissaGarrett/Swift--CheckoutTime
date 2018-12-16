@@ -12,13 +12,14 @@ class BookViewController: UITableViewController {
     var genreType: String!
 
     var books = [Book]()
+    var booksByGenre = [Book]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = genreType
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addBook))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewBook))
         
         // Load data from disk
         let defaults = UserDefaults.standard
@@ -37,9 +38,19 @@ class BookViewController: UITableViewController {
                 present(ac, animated: true)
             }
         }
+        
+        getBooksByGenre()
     }
     
-    @objc func addBook() {
+    func getBooksByGenre() {
+        for book in books {
+            if book.genre.rawValue == genreType {
+                booksByGenre.append(book)
+            }
+        }
+    }
+    
+    @objc func addNewBook() {
         let alertMsg = "Add book for the \(genreType!) genre."
         
         let ac = UIAlertController(title: "", message: alertMsg, preferredStyle: .alert)
@@ -75,7 +86,8 @@ class BookViewController: UITableViewController {
     func saveNewBook(title: String, author: String, genre: Genre) {
         let newBook = Book(title: title, author: author, genre: Genre(rawValue: genre.rawValue)!)
         
-        // Save to array
+        // Save to arrays
+        booksByGenre.append(newBook)
         books.append(newBook)
         
         // Save to disk
@@ -100,14 +112,14 @@ class BookViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return books.count
+        return booksByGenre.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Book", for: indexPath) as! BookCell
         
-        cell.titleLabel.text = books[indexPath.row].title
-        cell.authorLabel.text = books[indexPath.row].author
+        cell.titleLabel?.text = booksByGenre[indexPath.row].title
+        cell.authorLabel?.text = booksByGenre[indexPath.row].author
         
         cell.backgroundColor = getBackgroundColor()
 
@@ -121,6 +133,10 @@ class BookViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             // remove row from array; reload data OR use a pop-up to delete!!!
+            books.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            tableView.reloadData()
         }
     }
     
