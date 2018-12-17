@@ -118,7 +118,10 @@ class BookViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Book", for: indexPath) as! BookCell
         
+        cell.titleLabel?.adjustsFontSizeToFitWidth = true
         cell.titleLabel?.text = booksByGenre[indexPath.row].title
+        
+        cell.authorLabel?.adjustsFontSizeToFitWidth = true
         cell.authorLabel?.text = booksByGenre[indexPath.row].author
         
         cell.backgroundColor = getBackgroundColor()
