@@ -30,7 +30,7 @@ class BookViewController: UITableViewController {
             do {
                 books = try jsonDecoder.decode([Book].self, from: savedData)
             } catch {
-                let ac = UIAlertController(title: "Error", message: "Could not save data.", preferredStyle: .alert)
+                let ac = UIAlertController(title: "Error", message: "Could not retrieve data.", preferredStyle: .alert)
                 let action = UIAlertAction(title: "OK", style: .default)
                 
                 ac.addAction(action)
