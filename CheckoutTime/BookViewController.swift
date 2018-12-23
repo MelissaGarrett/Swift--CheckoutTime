@@ -16,12 +16,12 @@ class BookViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+  
         title = genreType
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewBook))
         
-        // Load data from disk
+        // Load data from storage
         let defaults = UserDefaults.standard
         
         if let savedData = defaults.object(forKey: "books") as? Data {
@@ -42,6 +42,7 @@ class BookViewController: UITableViewController {
         getBooksByGenre()
     }
     
+    // Get books for genre currently displayed
     func getBooksByGenre() {
         for book in books {
             if book.genre.rawValue == genreType {
@@ -90,7 +91,12 @@ class BookViewController: UITableViewController {
         booksByGenre.append(newBook)
         books.append(newBook)
         
-        // Save to disk
+        saveDataToStorage()
+        
+        tableView.reloadData()
+    }
+    
+    func saveDataToStorage() {
         do {
             let defaults = UserDefaults.standard
             let jsonEncoder = JSONEncoder()
@@ -105,8 +111,6 @@ class BookViewController: UITableViewController {
             
             present(ac, animated: true)
         }
-        
-        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -135,10 +139,21 @@ class BookViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
-            // remove row from array; reload data OR use a pop-up to delete!!!
-            books.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            booksByGenre.remove(at: indexPath.row)
+
+            let cell = tableView.cellForRow(at: indexPath) as! BookCell
+            let title = cell.titleLabel.text
+            let author = cell.authorLabel.text
             
+            for book in books {
+                if book.title == title && book.author == author {
+                    books.removeAll(where: { $0 == book })
+                }
+            }
+            
+            saveDataToStorage()
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.reloadData()
         }
     }
